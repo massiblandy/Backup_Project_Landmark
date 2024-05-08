@@ -31,6 +31,8 @@ set(msg_files
   "msg/Decision.msg"
   "msg/Walk.msg"
   "msg/NeckPosition.msg"
+  "msg/VisionVector1.msg"
+  "msg/VisionVector2.msg"
 )
 
 set(srv_files

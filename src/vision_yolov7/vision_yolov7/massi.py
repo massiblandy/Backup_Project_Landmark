@@ -25,14 +25,6 @@ from utils.torch_utils import select_device, load_classifier, time_synchronized,
 from models import *
 import yaml
 
-# Carregar informações do arquivo ytml
-with open('src/vision_yolov7/vision_yolov7/data.yaml', 'r') as file:
-    config = yaml.safe_load(file)
-
-# Obter o número de classes e os nomes das classes
-num_classes = config['nc']
-class_names = config['names']
-
 PATH_TO_WEIGHTS = 'src/vision_yolov7/vision_yolov7/peso_tiny/best.pt'
 PATH_TO_WEIGHTS_LANDMARKS = 'src/vision_yolov7/vision_yolov7/peso_tiny/best_localization.pt'
 THRESHOLD = 0.45
@@ -67,6 +59,9 @@ class ballStatus(Node):
         self.config = config
         self.publisher_ = self.create_publisher(Vision, '/ball_position', 10)
         self.publisher_robot = self.create_publisher(VisionVector, '/robot_position', 10)
+        self.publisher_centerlandmark = self.create_publisher(VisionVector, '/centerlandmark_position', 10)
+        self.publisher_penaltilandmark = self.create_publisher(VisionVector, '/penaltilandmark_position', 10)
+        self.publisher_goalpostlandmark = self.create_publisher(VisionVector, '/goalpostlandmark_position', 10)
         timer_period = 0.008  # seconds
         self.cont_vision = 0
         self.weights = PATH_TO_WEIGHTS
