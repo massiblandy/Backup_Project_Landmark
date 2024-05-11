@@ -30,8 +30,6 @@ class LandmarkDetection(Node):
             '/neck_position',
             self.topic_callback_neck,
             10)
-        self.neck_sides = None  # Adicionando atributo para armazenar a posição dos motores 19
-        self.neck_up = None  # Adicionando atributo para armazenar a posição dos motores 20
         self.detect_landmarks()
 
     def topic_callback_neck(self, msg):
@@ -107,11 +105,7 @@ class LandmarkDetection(Node):
                                 getattr(self, f"publisher_{names[int(cls)]}landmark").publish(msg_landmark)
                                 print(f"{names[int(cls)]} detectado: {msg_landmark.detected}, {x_pos}, {y_pos}")
 
-
                         plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=2)  # Desenhando o bounding box ao redor do landmark detectado na imagem.
-            
-            
-            print(f"Motor 19: {self.neck_sides}, Motor 20: {self.neck_up}")
             cv2.imshow('Landmark Detection', im0)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break

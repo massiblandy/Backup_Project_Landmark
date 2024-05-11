@@ -291,9 +291,12 @@ private:
             neck_up += cont_vision_up;
             section = "Stand Still";
             break;
-          
-          
-
+          case 25: // Centralizar bola acima
+            RCLCPP_INFO(this->get_logger(), "IC Massi");
+            parameters = false;
+            neck_up += cont_vision_up;
+            section = "IC Massi";
+            break;
         }
 
         if (parameters){
