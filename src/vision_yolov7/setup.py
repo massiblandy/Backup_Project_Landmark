@@ -23,6 +23,7 @@ setup(
     entry_points={
         'console_scripts': [
             'detect = vision_yolov7.detect:main',
+            'posicaomotor = vision_yolov7.posicaomotor:main'
         ],
     },
 )
