@@ -4,7 +4,7 @@
 // $ ros2 launch control action.launch.py
 
 
-// ros2 action send_goal  /control_action custom_interfaces/action/Control "{action_number: 17}"
+// ros2 action send_goal  /control_action custom_interfaces/action/Control "{action_number: 1}"
 
 #include <chrono>
 #include <memory>

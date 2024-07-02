@@ -32,8 +32,8 @@ class LandmarkDetection(Node):
         self.angle = None
         self.y = None
         self.x = None
-        self.camera_height = 0.06  #Altura do motor do pescoço até a câmera em metros
-        self.robot_height = 0.6  #Altura do robô (até o pescoço)
+        self.camera_height = 0.05  #Altura do motor do pescoço até a câmera em metros
+        self.robot_height = 0.59  #Altura do robô (até o pescoço)
         self.device = select_device('cpu')
         self.model, self.stride, self.imgsz, self.names, self.colors = self.load_model()
         self.cap = cv2.VideoCapture('/dev/video0')
@@ -119,29 +119,23 @@ class LandmarkDetection(Node):
                                     self.y = self.camera_height * math.sin(self.angle_rad)
                                     self.x = self.camera_height * math.cos(self.angle_rad)
                                     self.total_height = self.robot_height + self.y
-                                    #self.distance = math.tan(self.angle_rad) * self.robot_height
                                     self.distance = math.tan(self.angle_rad) * self.total_height + self.x
                                     self.get_logger().info(f"Distância entre robô e landmark {self.names[int(cls)]}: {self.distance}")
                         plot_one_box(xyxy, im0, label=label, color=self.colors[int(cls)], line_thickness=2)  # Desenhando o bounding box ao redor do landmark detectado na imagem.
+            
 
-            self.get_logger().info(f"Timer - Motor 19: {self.neck_sides}, Motor 20: {self.neck_up}")
+            cv2.line(im0, (self.config.x_left, 0), (self.config.x_left, im0.shape[0]), (0, 0, 255), 1)
+            cv2.line(im0, (self.config.x_center, 0), (self.config.x_center, im0.shape[0]), (0, 0, 255), 1)
+            cv2.line(im0, (self.config.x_right, 0), (self.config.x_right, im0.shape[0]), (0, 0, 255), 1)
+
+            cv2.line(im0, (0, self.config.y_chute), (im0.shape[1], self.config.y_chute), (0, 0, 255), 1)
+            cv2.line(im0, (0, self.config.y_longe), (im0.shape[1], self.config.y_longe), (0, 0, 255), 1)
+
+
+
+            #self.get_logger().info(f"Timer - Motor 19: {self.neck_sides}, Motor 20: {self.neck_up}")
             cv2.imshow('Landmark Detection', im0)
             cv2.waitKey(1)
-
-#def motor_angle(x):
-#    return (((x-1024)*90)/1024)
-
-#def calculate_distance(angle):
-#    self.camera_height = 0.06  #Altura do motor do pescoço até a câmera em metros
-#    self.robot_height = 0.6  #Altura do robô (até o pescoço)
-#    self.angle_rad = math.radians(angle) #Ângulo em radianos
-
-#    y = camera_height * math.sin(angle_rad)
-#    x = camera_height * math.cos(angle_rad)
-
-#    total_height = high + y
-#    distance = math.tan(angle_rad) * total_height + x
-#    return distance
 
 def main(args=None):
     rclpy.init(args=args)
